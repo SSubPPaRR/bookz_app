@@ -18,7 +18,7 @@ class RegistrationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(padding: EdgeInsets.symmetric(vertical: 10, horizontal:0),
-            child: Text("Login to Bookz"),
+            child: Text("Register for Bookz"),
           ),
           //username
           TextFormField(
@@ -48,7 +48,7 @@ class RegistrationPage extends StatelessWidget {
           //confirm password
           TextFormField(
             decoration: InputDecoration(
-                labelText: "Password"
+                labelText: "Confirm password"
             ) ,
             validator: (value) {
               if (value.isEmpty) {

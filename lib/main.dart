@@ -1,4 +1,5 @@
 import 'file:///C:/Users/clayt/AndroidStudioProjects/bookz_app/lib/Widgets/LoginPage.dart';
+import 'package:bookzapp/Widgets/RegistrationPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,7 @@ class _MyMain extends State<MyMain>{
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
                 width: double.infinity,
                 child: Card(
-                  child: LoginForm(),
+                  child: RegistrationPage(),
                 ),
               )
             ],
