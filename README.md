@@ -1,6 +1,6 @@
 # bookzapp
 
-A new Flutter application.
+ICT school project: book app.
 
 ## Getting Started
 
