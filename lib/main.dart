@@ -1,5 +1,5 @@
-import 'file:///C:/Users/clayt/AndroidStudioProjects/bookz_app/lib/Widgets/LoginPage.dart';
-import 'package:bookzapp/Widgets/RegistrationPage.dart';
+import 'Widgets/MyLoginScreen.dart';
+import 'Widgets/MyCatalog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,28 +29,17 @@ class MyMain extends StatefulWidget{
 
 }
 class _MyMain extends State<MyMain>{
+
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Bookz"),
         ),
-        body:Center(
-
-          child: Column(
-
-            mainAxisAlignment:MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                width: double.infinity,
-                child: Card(
-                  child: RegistrationPage(),
-                ),
-              )
-            ],
-          ) ,
-        )
+        body:LoginForm()
     );
   }
 
@@ -64,25 +53,16 @@ class LoginForm extends StatefulWidget {
   }
 }
 class LoginFormState extends State<LoginForm> {
+  bool _loggedIn;
+  String _userName;
+  String _password;
+
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return LoginPage();
+    _loggedIn = true;
+    return (_loggedIn)? MyCatalog() : MyLoginScreen();
   }
 }
 
-//homepage
-class MyHomepage extends StatefulWidget {
-  @override
-  MyHomepageState createState() {
-    return MyHomepageState();
-  }
-}
-class MyHomepageState extends State<LoginForm> {
-  @override
-  Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return LoginPage();
-  }
-}
+
 
