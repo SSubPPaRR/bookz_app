@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/CatalogCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class MyCatalog extends StatelessWidget{
   final List<Book> _newRelease =[
@@ -30,9 +32,11 @@ class MyCatalog extends StatelessWidget{
         url: "https://itbook.store/books/9781484206485"
     )
   ];
-
-  //final List<Book> _cat1 = new List
-
+/*
+  Future<http.Response> _cat1 () async {
+    return http.get("https://api.itbook.store/1.0/new");
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -55,9 +59,23 @@ class MyCatalog extends StatelessWidget{
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
                       Container(
+                        alignment:  Alignment.topCenter,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         width: 160.0,
                         color: Colors.red,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: <Widget>[
+                            Image.network("https://itbook.store/img/books/9781484211830.png",),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(4, 4, 4, 0),
+                              child: Text("Title goes hereeeee eeeeeeee eeeeeeeee eeeeeeeeeeeeeee",
+                                overflow: TextOverflow.ellipsis,
+                              )
+                              ,
+                            )
+                          ],
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -133,9 +151,9 @@ class MyCatalog extends StatelessWidget{
             ),
           ),
         ),
-        
         //CatalogCard test
-        CatalogCard("CatalogCard test",_newRelease)
+        CatalogCard("CatalogCard test",_newRelease),
+
       ],
     );
   }

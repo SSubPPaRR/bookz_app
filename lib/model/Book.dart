@@ -16,4 +16,16 @@ class Book{
     @required this.image,
     @required this.url,
 });
+
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+      isbn: json['isbn'],
+      title: json['title'],
+      subTitle: json['subtitle'],
+      price: json['price'],
+      image: json['image'],
+      url: json['url'],
+
+    );
+  }
 }

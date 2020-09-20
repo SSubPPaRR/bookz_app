@@ -1,4 +1,5 @@
 import 'package:bookzapp/model/Book.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CatalogCard extends StatelessWidget {
@@ -15,17 +16,43 @@ class CatalogCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(_catCardTitle),
+            Text(
+              "  " + _catCardTitle,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+
+              ),
+            ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
               height: 200.0,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: _list.map((book) => Container(
+                  alignment:  Alignment.topCenter,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   width: 160.0,
-                  color: Colors.red,
-                  child: Image.network(book.image),
+                  color: Colors.black,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      Image.network(book.image),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        child:
+                        //book title
+                        Text(
+                          book.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 )).toList()
               ),
             ),
