@@ -1,11 +1,13 @@
+
 import 'package:bookzapp/model/Book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CatalogCard extends StatelessWidget {
-  final String _catCardTitle;
+class CatalogGrid extends StatelessWidget{
+  final String _catGridTitle;
   final List<Book> _list;
-  CatalogCard(this._catCardTitle,this._list);
+
+  CatalogGrid(this._catGridTitle, this._list);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class CatalogCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "  " + _catCardTitle,
+              "  " + _catGridTitle,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -27,12 +29,16 @@ class CatalogCard extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+              height: 400.0,
+              child: GridView.count(
+                scrollDirection: Axis.vertical,
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                padding: EdgeInsets.symmetric(horizontal: 5
+                ),
                 children: _list.map((book) => Container(
                   alignment:  Alignment.topCenter,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
                   width: 160.0,
                   color: Colors.black,
                   child: Stack(
@@ -42,6 +48,7 @@ class CatalogCard extends StatelessWidget {
                       //book title container
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: 140,
                         child:
                         //book title
                         Text(
@@ -62,4 +69,5 @@ class CatalogCard extends StatelessWidget {
       ),
     );
   }
+
 }

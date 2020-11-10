@@ -10,6 +10,8 @@ class MainScreen extends StatefulWidget{
 class _MainScreenState extends State<MainScreen>{
 
   int _selectedIndex = 0;
+  String _title = "Home";
+  List<Widget> _actions;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
@@ -27,6 +29,20 @@ class _MainScreenState extends State<MainScreen>{
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      switch(index){
+        case 0: _title = "Home";
+                _actions = null;
+        break;
+        case 1: _title = "Catalog";
+                _actions = [
+                  IconButton(icon: Icon(Icons.search), tooltip: "Search", onPressed: null),
+                  IconButton(icon: Icon(Icons.shopping_cart), tooltip: "Show cart", onPressed: null),
+                ];
+        break;
+        case 2: _title = "Profile";
+                _actions = null;
+        break;
+      }
     });
   }
 
@@ -34,7 +50,8 @@ class _MainScreenState extends State<MainScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bookz"),
+        title: Text(_title),
+        actions: _actions,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

@@ -90,7 +90,7 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
                                             content:
                                             Text('Processing Data')));
                                   }
-                                  Navigator.pushNamed(context, "/main");
+                                  Navigator.pushReplacementNamed(context, "/main");
                                 },
                                 child: Text('Submit'),
                               )
