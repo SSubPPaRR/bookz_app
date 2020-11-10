@@ -16,36 +16,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyMain(),
+      initialRoute: "/",
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => MyLoginScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/main': (context) => MainScreen(),
+      },
     );
   }
 }
 
-class MyMain extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    return _MyMain();
-  }
-
-}
-class _MyMain extends State<MyMain>{
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Bookz"),
-        ),
-        body:Main()
-    );
-  }
-
-}
-
-//login form
+//main
 class Main extends StatefulWidget {
   @override
   MainState createState() {
@@ -59,8 +41,8 @@ class MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    _loggedIn = true;
-    return (_loggedIn)? MainScreen() : MyLoginScreen();
+
+    return MyLoginScreen();
   }
 }
 

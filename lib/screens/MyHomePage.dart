@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class MyCatalog extends StatelessWidget{
+class MyHomePage extends StatelessWidget{
   final List<Book> _newRelease =[
     Book(
       title:"this is a test book",

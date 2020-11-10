@@ -13,7 +13,7 @@ class _MainScreenState extends State<MainScreen>{
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
-    MyCatalog(),
+    MyHomePage(),
     Text(
       'Index 1: Catalog',
       style: optionStyle,
@@ -33,6 +33,9 @@ class _MainScreenState extends State<MainScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Bookz"),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
