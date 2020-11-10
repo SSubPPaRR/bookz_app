@@ -1,5 +1,5 @@
-import 'Widgets/MyLoginScreen.dart';
-import 'Widgets/MyCatalog.dart';
+import 'package:bookzapp/screens/MainScreen.dart';
+import 'screens/MyLoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,20 +39,20 @@ class _MyMain extends State<MyMain>{
         appBar: AppBar(
           title: Text("Bookz"),
         ),
-        body:LoginForm()
+        body:Main()
     );
   }
 
 }
 
 //login form
-class LoginForm extends StatefulWidget {
+class Main extends StatefulWidget {
   @override
-  LoginFormState createState() {
-    return LoginFormState();
+  MainState createState() {
+    return MainState();
   }
 }
-class LoginFormState extends State<LoginForm> {
+class MainState extends State<Main> {
   bool _loggedIn;
   String _userName;
   String _password;
@@ -60,7 +60,7 @@ class LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     _loggedIn = true;
-    return (_loggedIn)? MyCatalog() : MyLoginScreen();
+    return (_loggedIn)? MainScreen() : MyLoginScreen();
   }
 }
 
