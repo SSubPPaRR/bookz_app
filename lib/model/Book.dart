@@ -17,15 +17,26 @@ class Book{
     @required this.url,
 });
 
-  factory Book.fromJson(Map<String, dynamic> json) {
-    return Book(
-      isbn: json['isbn'],
-      title: json['title'],
-      subTitle: json['subtitle'],
-      price: json['price'],
-      image: json['image'],
-      url: json['url'],
-
-    );
+  @override
+  String toString() {
+    return 'Book{isbn: $isbn, title: $title}';
   }
+
+  factory Book.fromJson(Map<String, dynamic> json) {
+
+    // if((json['title']!=null) && (json['subtitle']!=null) && (json['price']!=null)&& (json['image']!=null)&& (json['url']!=null)){
+      return Book(
+        isbn: int.parse(json['isbn13']),
+        title: json['title'] as String,
+        subTitle: json['subtitle'] as String,
+        price: double.parse(json['price'].toString().replaceFirst('\$', '')),
+        image: json['image'] as String,
+        url: json['url'] as String,
+      );
+  }
+    // else{
+    //   return null;
+    // }
+
+
 }
