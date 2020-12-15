@@ -53,9 +53,7 @@ class _MainScreenState extends State<MainScreen>{
         title: Text(_title),
         actions: _actions,
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

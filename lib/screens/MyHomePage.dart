@@ -4,6 +4,7 @@ import 'package:bookzapp/Widgets/CatalogGrid.dart';
 import 'package:bookzapp/Widgets/CatalogCard.dart';
 import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/BookSet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,26 +44,27 @@ class _MyHomePageState extends State<MyHomePage> {
     )
   ];*/
 
-  String topic = "test grid";
+  String topic;
   List<String> topics = ["java","HTML","Python"];
 
-
+  //these don't change, used in conjunction
   BookSet parseBookSet(String responseBody) {
     final Map parsed = json.decode(responseBody);
     return BookSet.fromJson(parsed);
   }
   Future<BookSet> fetchBookSet(String url) async{
-    final response = await http.get(url);
-    return parseBookSet(response.body);
+      try {
+        final response = await http.get(url);
+        return parseBookSet(response.body);
+      }
+      catch(timeOut){
+        print("Connection timedOut");
+        return null; //new BookSet(error: 0,total: 0,books: new List<Book>());
+      }
   }
 
-
-  Future<List<Book>> retrieveNewReleases() async{
-    var bookSet = await fetchBookSet("https://api.itbook.store/1.0/new");
-    List<Book> bookList = bookSet.books;
-    return bookList;
-  }
-  Future<Map<String,List<Book>>> retrieveDailyBooks() async{
+  //returns list of books based on today's topics
+  Future<Map<String,List<Book>>> retrieveDailyBooks() async {
     int rand = new Random().nextInt(topics.length);
     topic = topics.elementAt(rand);
     var bookSet = await fetchBookSet("https://api.itbook.store/1.0/search/" + topic);
@@ -74,6 +76,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return dailyBooks;
 
   }
+
+  // returns list of newly released books
+  Future<List<Book>> retrieveNewReleases() async{
+    var bookSet = await fetchBookSet("https://api.itbook.store/1.0/new");
+    List<Book> bookList = bookSet.books;
+    return bookList;
+  }
+
+  //returns map containing list of books for various categories
   Future<Map<String,List<Book>>> getAllBooks() async {
     Map<String,List<Book>> catalogBookMap = new Map();
 
@@ -89,6 +100,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  //load error
+  Widget catalogCardLoad(a){
+    if(a == null){
+      return
+      Container(
+        color: Colors.red,
+        child: ListView(
+          children:<Widget>[
+            Center(
+              child: Container(
+                color: Colors.red,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.signal_wifi_off,
+                      size: 50,
+                    ),
+                    Text('No connection, reload to try again'),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+    }
+    else{
+      return
+      ListView(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        children: <Widget>[
+          //new releases
+          CatalogCard("New releases",a['NewRelease']),
+          //catalog grid test random daily books
+          CatalogGrid("Books about " + topic, a[topic]),
+        ]
+      );
+    }
+  }
 
   // reload new releases
   @override
@@ -97,67 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder<Map<String,List<Book>>>(
       future: getAllBooks(),
       builder:(context, snapshot) {
-        if( snapshot.connectionState == ConnectionState.waiting){
+        if(snapshot.connectionState == ConnectionState.waiting){
           return  Center(child: Text('Please wait Homepage is loading...'));
-        }else return RefreshIndicator(child: ListView(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          children: <Widget>[
+        }else return RefreshIndicator(child:
 
-            //new releases
-            CatalogCard("New releases",snapshot.data['NewRelease']),
-            // random books
-            /* Card(
-          color: Colors.purple,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("this section"),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                  height: 200.0,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 160.0,
-                        color: Colors.red,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 160.0,
-                        color: Colors.blue,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 160.0,
-                        color: Colors.green,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 160.0,
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        width: 160.0,
-                        color: Colors.orange,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),*/
+          catalogCardLoad(snapshot.data),
 
-            //catalog grid test
-            CatalogGrid("Books about " + topic, snapshot.data[topic])
-          ],
-        ), onRefresh:() =>  updateWidgets());
+         onRefresh:() =>  updateWidgets());
       } ,
     );
   }
