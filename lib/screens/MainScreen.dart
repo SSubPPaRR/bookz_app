@@ -1,3 +1,4 @@
+import 'package:bookzapp/screens/MyCatalogPage.dart';
 import 'package:bookzapp/screens/MyHomePage.dart';
 import 'package:flutter/material.dart';
 
@@ -10,39 +11,85 @@ class MainScreen extends StatefulWidget{
 class _MainScreenState extends State<MainScreen>{
 
   int _selectedIndex = 0;
-  String _title = "Home";
+  Widget _title = Text("Home");
+  Widget _leading;
+  Widget _body = _widgetOptions.elementAt(0);
+
   List<Widget> _actions;
+  static final myController = TextEditingController();
+
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static  List<Widget> _widgetOptions = <Widget>[
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
-    Text(
-      'Index 1: Catalog',
-      style: optionStyle,
-    ),
+    MyCatalogPage(""),
     Text(
       'Index 2: Profile',
       style: optionStyle,
     ),
   ];
 
+  void showSearchBar() {
+    List<Widget> _searchActions = [
+      IconButton(icon: Icon(Icons.more_vert), tooltip: "More", onPressed: null),
+    ];
+
+    setState(() {
+      _leading = IconButton(
+          icon: Icon(Icons.arrow_back), onPressed: () => _onItemTapped(1));
+      _title = TextField(
+          controller: myController,
+          style: TextStyle(fontSize: 22),
+          decoration: InputDecoration(
+              border: UnderlineInputBorder(), hintText: "Search..."),
+          maxLines: 1,
+          autofocus: true,
+          cursorColor: Colors.white,
+          onSubmitted: setSearchQuery);
+      _actions = _searchActions;
+    });
+  }
+
+  void setSearchQuery(String string) {
+    print(string);
+
+    setState(() {
+      _body = MyCatalogPage(string);
+    });
+  }
+
+  void showShoppingCart() {}
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      switch(index){
-        case 0: _title = "Home";
-                _actions = null;
-        break;
-        case 1: _title = "Catalog";
-                _actions = [
-                  IconButton(icon: Icon(Icons.search), tooltip: "Search", onPressed: null),
-                  IconButton(icon: Icon(Icons.shopping_cart), tooltip: "Show cart", onPressed: null),
-                ];
-        break;
-        case 2: _title = "Profile";
-                _actions = null;
-        break;
+      switch (index) {
+        case 0:
+          _title = Text("Home");
+          _actions = null;
+          _leading = null;
+          break;
+        case 1:
+          _title = Text("Catalog");
+          _actions = [
+            IconButton(
+                icon: Icon(Icons.search),
+                tooltip: "Search",
+                onPressed: showSearchBar),
+            IconButton(
+                icon: Icon(Icons.shopping_cart),
+                tooltip: "Show cart",
+                onPressed: null),
+          ];
+          _leading = null;
+          break;
+        case 2:
+          _title = Text("Profile");
+          _actions = null;
+          _leading = null;
+          break;
       }
+      _body = _widgetOptions.elementAt(_selectedIndex);
     });
   }
 
@@ -50,10 +97,11 @@ class _MainScreenState extends State<MainScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        leading: _leading,
+        title: _title,
         actions: _actions,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: _body,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

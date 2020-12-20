@@ -5,42 +5,45 @@ import 'package:flutter/material.dart';
 
 class CatalogSearchList extends StatelessWidget{
   final List<Book> _list;
-
   CatalogSearchList(this._list);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-      height: 200.0,
-      child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: _list.map((book) => Container(
-            alignment:  Alignment.topCenter,
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
-            width: 160.0,
-            color: Colors.black,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: <Widget>[
-                Image.network(book.image),
-                //book title container
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  child:
-                  //book title
-                  Text(
-                    book.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
+      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+      color: Colors.deepOrange,
+      child: GridView.count(
+          scrollDirection: Axis.vertical,
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          children: _list
+              .map((book) => Container(
+                    alignment: Alignment.topCenter,
+                    color: Colors.black,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: <Widget>[
+                        Image.network(book.image),
+                        //book title container
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 4),
+                          width: 140,
+                          child:
+                              //book title
+                              Text(
+                            book.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          )).toList()
-      ),
+                  ))
+              .toList()),
     );
   }
 }

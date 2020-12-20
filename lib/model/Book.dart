@@ -19,12 +19,11 @@ class Book{
 
   @override
   String toString() {
-    return 'Book{isbn: $isbn, title: $title}';
+    return 'Book{isbn: $isbn, title: $title, price: \$$price}';
   }
 
   factory Book.fromJson(Map<String, dynamic> json) {
 
-    // if((json['title']!=null) && (json['subtitle']!=null) && (json['price']!=null)&& (json['image']!=null)&& (json['url']!=null)){
       return Book(
         isbn: int.parse(json['isbn13']),
         title: json['title'] as String,
@@ -34,9 +33,5 @@ class Book{
         url: json['url'] as String,
       );
   }
-    // else{
-    //   return null;
-    // }
-
 
 }

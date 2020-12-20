@@ -17,32 +17,6 @@ class MyHomePage extends StatefulWidget{
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- /* List<Book> _newReleaseTest = [
-    Book(
-      title:"this is a test book number 1 with a super long title",
-      subTitle: "here is the subtitle",
-      isbn: 9781484206485,
-      price: 32.04,
-      image: "https://itbook.store/img/books/9781484206485.png",
-      url: "https://itbook.store/books/9781484206485"
-    ),
-    Book(
-        title:"this is a test book",
-        subTitle: "here is the subtitle",
-        isbn: 9781484206485,
-        price: 32.04,
-        image: "https://itbook.store/img/books/9781484206485.png",
-        url: "https://itbook.store/books/9781484206485"
-    ),
-    Book(
-        title:"this is a test book",
-        subTitle: "here is the subtitle",
-        isbn: 9781484206485,
-        price: 32.04,
-        image: "https://itbook.store/img/books/9781484206485.png",
-        url: "https://itbook.store/books/9781484206485"
-    )
-  ];*/
 
   String topic;
   List<String> topics = ["java","HTML","Python"];
@@ -72,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String,List<Book>> dailyBooks = {
       topic: bookList,
     };
-    print(dailyBooks);
     return dailyBooks;
 
   }
