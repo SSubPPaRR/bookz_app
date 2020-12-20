@@ -33,33 +33,34 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       catch(timeOut){
         print("Connection timedOut");
-        return null; //new BookSet(error: 0,total: 0,books: new List<Book>());
-      }
+      //error: -1 for connection error
+      return new BookSet(error: -1, total: 0, books: new List<Book>());
+    }
   }
 
   //returns list of books based on today's topics
-  Future<Map<String,List<Book>>> retrieveDailyBooks() async {
+  Future<Map<String, BookSet>> retrieveDailyBooks() async {
     int rand = new Random().nextInt(topics.length);
     topic = topics.elementAt(rand);
-    var bookSet = await fetchBookSet("https://api.itbook.store/1.0/search/" + topic);
-    List<Book> bookList = bookSet.books;
-    Map<String,List<Book>> dailyBooks = {
-      topic: bookList,
+    var bookSet = await fetchBookSet(
+        "https://api.itbook.store/1.0/search/" + topic);
+
+    Map<String, BookSet> dailyBooks = {
+      topic: bookSet,
     };
     return dailyBooks;
-
   }
 
   // returns list of newly released books
-  Future<List<Book>> retrieveNewReleases() async{
+  Future<BookSet> retrieveNewReleases() async {
     var bookSet = await fetchBookSet("https://api.itbook.store/1.0/new");
-    List<Book> bookList = bookSet.books;
-    return bookList;
+
+    return bookSet;
   }
 
   //returns map containing list of books for various categories
-  Future<Map<String,List<Book>>> getAllBooks() async {
-    Map<String,List<Book>> catalogBookMap = new Map();
+  Future<Map<String, BookSet>> getAllBooks() async {
+    Map<String, BookSet> catalogBookMap = new Map();
 
     catalogBookMap['NewRelease'] = await retrieveNewReleases();
     catalogBookMap.addAll(await retrieveDailyBooks());
@@ -67,70 +68,71 @@ class _MyHomePageState extends State<MyHomePage> {
     return catalogBookMap;
   }
 
-  Future<void> updateWidgets() async{
+  Future<void> updateWidgets() async {
     setState(() {
 
     });
   }
 
-  //load error
-  Widget catalogCardLoad(a){
-    if(a == null){
-      return
-      Container(
-        color: Colors.red,
-        child: ListView(
-          children:<Widget>[
-            Center(
-              child: Container(
-                color: Colors.red,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.signal_wifi_off,
-                      size: 50,
-                    ),
-                    Text('No connection, reload to try again'),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
-    }
-    else{
-      return
-      ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        children: <Widget>[
-          //new releases
-          CatalogCard("New releases",a['NewRelease']),
-          //catalog grid test random daily books
-          CatalogGrid("Books about " + topic, a[topic]),
-        ]
-      );
-    }
-  }
-
   // reload new releases
   @override
   Widget build(BuildContext context) {
-
-    return FutureBuilder<Map<String,List<Book>>>(
+    final bodyHeight = MediaQuery
+        .of(context)
+        .size
+        .height -
+        kToolbarHeight -
+        kBottomNavigationBarHeight -
+        kTextTabBarHeight;
+    return FutureBuilder<Map<String, BookSet>>(
       future: getAllBooks(),
-      builder:(context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return  Center(child: Text('Please wait Homepage is loading...'));
-        }else return RefreshIndicator(child:
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: Text('Please wait Homepage is loading...'));
+        }
+        else if (snapshot.data['NewRelease'].error == -1) {
+          return RefreshIndicator(
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification:
+                      (OverscrollIndicatorNotification overScroll) {
+                    overScroll.disallowGlow();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Container(
+                          alignment: Alignment.center,
+                          color: Colors.red,
+                          height: bodyHeight,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.signal_wifi_off,
+                                size: 50,
+                              ),
+                              Text('No connection, reload to try again'),
+                            ],
+                          )))),
+              onRefresh: () => updateWidgets());
+        }
+        else {
+          return RefreshIndicator(child:
 
-          catalogCardLoad(snapshot.data),
+          ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: <Widget>[
+                //new releases
+                CatalogCard("New releases", snapshot.data['NewRelease'].books),
+                //catalog grid test random daily books
+                CatalogGrid("Books about " + topic, snapshot.data[topic].books),
+              ]
+          ),
 
-         onRefresh:() =>  updateWidgets());
-      } ,
+              onRefresh: () => updateWidgets());
+        }
+      },
     );
   }
 }

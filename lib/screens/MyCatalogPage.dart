@@ -89,7 +89,8 @@ class _MyCatalogPageState extends State<MyCatalogPage> {
                                 ],
                               )))),
                   onRefresh: () => refresh());
-            } else
+            }
+            else
               return RefreshIndicator(
                 child: CatalogSearchList(snapshot.data.books),
                 onRefresh: () => refresh(),
