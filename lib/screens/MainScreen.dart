@@ -35,6 +35,7 @@ class _MainScreenState extends State<MainScreen>{
     ];
 
     setState(() {
+      //TODO: remove search query from search bar if necessary
       _leading = IconButton(
           icon: Icon(Icons.arrow_back), onPressed: () => _onItemTapped(1));
       _title = TextField(

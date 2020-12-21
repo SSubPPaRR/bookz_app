@@ -19,18 +19,19 @@ class MyHomePage extends StatefulWidget{
 class _MyHomePageState extends State<MyHomePage> {
 
   String topic;
-  List<String> topics = ["java","HTML","Python"];
+  List<String> topics = ["java", "HTML", "Python", "SQL"];
 
-  //these don't change, used in conjunction
+  //these don't change, used in conjunction to retrieve and parse bookSet from API
   BookSet parseBookSet(String responseBody) {
     final Map parsed = json.decode(responseBody);
     return BookSet.fromJson(parsed);
   }
-  Future<BookSet> fetchBookSet(String url) async{
-      try {
-        final response = await http.get(url);
-        return parseBookSet(response.body);
-      }
+
+  Future<BookSet> fetchBookSet(String url) async {
+    try {
+      final response = await http.get(url);
+      return parseBookSet(response.body);
+    }
       catch(timeOut){
         print("Connection timedOut");
       //error: -1 for connection error
