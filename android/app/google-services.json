@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "64207076586",
+    "firebase_url": "https://bookzapp-9a658-default-rtdb.firebaseio.com",
+    "project_id": "bookzapp-9a658",
+    "storage_bucket": "bookzapp-9a658.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64207076586:android:4c4b17d0085a0d7b8c6b93",
+        "android_client_info": {
+          "package_name": "com.example.bookzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64207076586-asv2spbs09cg9oprottt4b72f3jdu91g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLV2fGe11zysEm2rWpMz9psTv92Smfs8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64207076586-asv2spbs09cg9oprottt4b72f3jdu91g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
