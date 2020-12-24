@@ -1,5 +1,6 @@
 import 'package:bookzapp/screens/MyCatalogPage.dart';
 import 'package:bookzapp/screens/MyHomePage.dart';
+import 'package:bookzapp/screens/MyProfileScreen.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget{
@@ -23,10 +24,7 @@ class _MainScreenState extends State<MainScreen>{
   static List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
     MyCatalogPage(""),
-    Text(
-      'Index 2: Profile',
-      style: optionStyle,
-    ),
+    MyProfileScreen(),
   ];
 
   void showSearchBar() {
@@ -59,6 +57,10 @@ class _MainScreenState extends State<MainScreen>{
     });
   }
 
+  void signOut() {
+
+  }
+
   void showShoppingCart() {}
 
   void _onItemTapped(int index) {
@@ -77,6 +79,7 @@ class _MainScreenState extends State<MainScreen>{
                 icon: Icon(Icons.search),
                 tooltip: "Search",
                 onPressed: showSearchBar),
+            //TODO: Implement function for shoppingCart screen here
             IconButton(
                 icon: Icon(Icons.shopping_cart),
                 tooltip: "Show cart",

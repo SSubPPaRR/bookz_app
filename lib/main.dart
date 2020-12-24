@@ -1,9 +1,16 @@
+import 'package:bookzapp/model/AuthenticationService.dart';
 import 'package:bookzapp/screens/MainScreen.dart';
-import 'screens/MyLoginScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+import 'screens/MyLoginScreen.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -11,37 +18,37 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+        ),
+      ],
+      child: MaterialApp(
+        home: Main(),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
       ),
-      initialRoute: "/",
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => MyLoginScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/main': (context) => MainScreen(),
-      },
     );
   }
 }
 
 //main
-class Main extends StatefulWidget {
-  @override
-  MainState createState() {
-    return MainState();
-  }
-}
-class MainState extends State<Main> {
-  bool _loggedIn;
-  String _userName;
-  String _password;
+class Main extends StatelessWidget {
+  const Main({Key key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
+    final firebaseUser = context.watch<User>();
+    if (firebaseUser != null) {
+      return MainScreen();
+    }
     return MyLoginScreen();
   }
 }

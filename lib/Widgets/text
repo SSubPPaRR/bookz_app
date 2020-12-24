@@ -1,29 +1,73 @@
-class NewReleaseNotifier extends ChangeNotifier{
-  var newRelease;
-  BookSet parseBookSet(String responseBody) {
-    final Map parsed = json.decode(responseBody);
-    return BookSet.fromJson(parsed);
-  }
-
-  Future<BookSet> fetchBookSet(String url) async{
-    final response = await http.get(url);
-    return parseBookSet(response.body);
-  }
-
-  Future<List<Book>> retrieveNewReleases() async{
-    var bookSet = await fetchBookSet("https://api.itbook.store/1.0/new");
-    List<Book> bookList = bookSet.books;
-    print(bookList);
-    return bookList;
-  }
-
-  Future<void> getNewReleases() async{
-    newRelease = await retrieveNewReleases();
-    // setState(() {});
-  }
-
-  void updateWidget(){
-    getNewReleases();
-    notifyListeners();
-  }
-}
+Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 0),
+                            child: Text("Register for Bookz"),
+                          ),
+                          //username
+                          TextFormField(
+                            decoration:
+                            InputDecoration(labelText: "Username"),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter username';
+                              }
+                              return null;
+                            },
+                          ),
+                          //password
+                          TextFormField(
+                            decoration:
+                            InputDecoration(labelText: "Password"),
+                            validator: (value) {
+                              password = value;
+                              if (value.isEmpty) {
+                                return 'Please enter password';
+                              }
+                              return null;
+                            },
+                          ),
+                          //confirm password
+                          TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Confirm password"),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please confirm password';
+                              } else if (value != password) {
+                                return 'Password does not match, try again!';
+                              }
+                              return null;
+                            },
+                          ),
+                          ButtonBar(
+                            alignment: MainAxisAlignment.spaceBetween,
+                            buttonPadding: EdgeInsets.all(14),
+                            children: <Widget>[
+                              RaisedButton(
+                                onPressed: _changeForm,
+                                child: Text("Return"),
+                              ),
+                              RaisedButton(
+                                onPressed: () {
+                                  // Validate returns true if the form is valid, or false
+                                  // otherwise.
+                                  if (_formKey.currentState.validate()) {
+                                    // If the form is valid, display a Snackbar.
+                                    Scaffold.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                            Text('Processing Data')));
+                                  }
+                                },
+                                child: Text('Submit'),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    )
