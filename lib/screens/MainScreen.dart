@@ -57,6 +57,10 @@ class _MainScreenState extends State<MainScreen>{
     });
   }
 
+  void signOut() {
+
+  }
+
   void showShoppingCart() {}
 
   void _onItemTapped(int index) {

@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:bookzapp/Widgets/CatalogGrid.dart';
+
 import 'package:bookzapp/Widgets/CatalogCard.dart';
+import 'package:bookzapp/Widgets/CatalogGrid.dart';
 import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/BookSet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-
 
 
 class MyHomePage extends StatefulWidget{
@@ -18,6 +17,7 @@ class MyHomePage extends StatefulWidget{
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  //TODO: Get topic list from Firebase
   String topic;
   List<String> topics = ["java", "HTML", "Python", "SQL"];
 

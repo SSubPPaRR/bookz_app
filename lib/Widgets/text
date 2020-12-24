@@ -1,4 +1,4 @@
-Form(//registration
+Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
