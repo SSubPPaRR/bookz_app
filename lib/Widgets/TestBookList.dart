@@ -2,11 +2,11 @@ import 'package:bookzapp/Widgets/BookBox.dart';
 import 'package:bookzapp/model/Book.dart';
 import 'package:flutter/cupertino.dart';
 
-class Testbooklist extends StatelessWidget{
+class TestBookList extends StatelessWidget{
 
   final List <Book> cock;
 
-  const Testbooklist({Key key, this.cock}) : super(key: key);
+  const TestBookList({Key key, this.cock}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
