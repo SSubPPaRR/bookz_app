@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:bookzapp/Widgets/CatalogSearchList.dart';
-import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/BookSet.dart';
+import 'package:bookzapp/model/Utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class MyCatalogPage extends StatefulWidget {
   final String query;
@@ -16,24 +14,9 @@ class MyCatalogPage extends StatefulWidget {
 }
 
 class _MyCatalogPageState extends State<MyCatalogPage> {
-  BookSet parseBookSet(String responseBody) {
-    final Map parsed = json.decode(responseBody);
-    return BookSet.fromJson(parsed);
-  }
-
-  Future<BookSet> fetchBookSet(String url) async {
-    try {
-      final response = await http.get(url);
-      return parseBookSet(response.body);
-    } catch (timeOut) {
-      print("Connection timed out/Search query error");
-      //error: -1 for connection error
-      return new BookSet(error: -1, total: 0, books: new List<Book>());
-    }
-  }
 
   Future<BookSet> retrieveSearchedBooks() async {
-    var bookSet = await fetchBookSet(
+    var bookSet = await Utilities.fetchBookSet(
         "https://api.itbook.store/1.0/search/" + widget.query);
     return bookSet;
   }

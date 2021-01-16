@@ -1,13 +1,11 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:bookzapp/Widgets/CatalogCard.dart';
 import 'package:bookzapp/Widgets/CatalogGrid.dart';
-import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/BookSet.dart';
+import 'package:bookzapp/model/Utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 
 class MyHomePage extends StatefulWidget{
@@ -21,29 +19,11 @@ class _MyHomePageState extends State<MyHomePage> {
   String topic;
   List<String> topics = ["java", "HTML", "Python", "SQL"];
 
-  //these don't change, used in conjunction to retrieve and parse bookSet from API
-  BookSet parseBookSet(String responseBody) {
-    final Map parsed = json.decode(responseBody);
-    return BookSet.fromJson(parsed);
-  }
-
-  Future<BookSet> fetchBookSet(String url) async {
-    try {
-      final response = await http.get(url);
-      return parseBookSet(response.body);
-    }
-      catch(timeOut){
-        print("Connection timedOut");
-      //error: -1 for connection error
-      return new BookSet(error: -1, total: 0, books: new List<Book>());
-    }
-  }
-
   //returns list of books based on today's topics
   Future<Map<String, BookSet>> retrieveDailyBooks() async {
     int rand = new Random().nextInt(topics.length);
     topic = topics.elementAt(rand);
-    var bookSet = await fetchBookSet(
+    var bookSet = await Utilities.fetchBookSet(
         "https://api.itbook.store/1.0/search/" + topic);
 
     Map<String, BookSet> dailyBooks = {
@@ -54,7 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // returns list of newly released books
   Future<BookSet> retrieveNewReleases() async {
-    var bookSet = await fetchBookSet("https://api.itbook.store/1.0/new");
+    var bookSet =
+        await Utilities.fetchBookSet("https://api.itbook.store/1.0/new");
 
     return bookSet;
   }

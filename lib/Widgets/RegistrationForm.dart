@@ -3,24 +3,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RegistrationForm extends StatelessWidget {
+class RegistrationForm extends StatefulWidget {
+  @override
+  _RegistrationFormState createState() => _RegistrationFormState();
+}
+
+class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController userController = TextEditingController();
+
   final TextEditingController passController = TextEditingController();
 
-  //TODO: implement code handling
-  //TODO: add email verification if necessary
-
-  // used to handle error returned from AuthenticationService
   void _registerError(String errorCode, context) {
-    if (errorCode == "Signed-up") {
-      Navigator.pop(context);
+    if (errorCode == "signed-up") {
+      // make snackBar appear on the login page after popping navigation
+      Navigator.pop(context, true);
     } else if (errorCode == 'invalid-email') {
       print('Email entered is invalid');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Entered email is invalid'),
+        ),
+      );
     } else if (errorCode == 'user-not-found') {
       print('No user found for that email.');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('No user found for that email.'),
+        ),
+      );
     } else if (errorCode == 'wrong-password') {
       print('Wrong password provided for that user.');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Wrong password provided for that user.'),
+        ),
+      );
+    } else {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorCode),
+        ),
+      );
     }
   }
 
@@ -78,11 +103,6 @@ class RegistrationForm extends StatelessWidget {
             alignment: MainAxisAlignment.end,
             buttonPadding: EdgeInsets.all(14),
             children: <Widget>[
-              /* RaisedButton(
-                              onPressed: _changeForm,
-                              child: Text("Return"),
-                            ),*/
-
               RaisedButton(
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false
@@ -97,11 +117,7 @@ class RegistrationForm extends StatelessWidget {
                         .signUp(
                             email: userController.text.trim(),
                             password: passController.text.trim());
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(authError),
-                      ),
-                    );
+
                     _registerError(authError, context);
                   }
                 },
