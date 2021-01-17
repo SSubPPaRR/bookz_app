@@ -47,7 +47,6 @@ class BookBox extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  //TODO: implement code to open book info page or implement a function variable
                   print("Open book screen: " + book.isbn.toString());
                   Navigator.push(
                       context,
