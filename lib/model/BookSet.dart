@@ -31,8 +31,8 @@ class BookSet{
     return BookSet(
       error: int.parse(json['error']),
       total: int.parse(json['total']),
-      books:
-          List<Book>.from(json['books'].map((s) => Book.fromJson(s)).toList()),
+      books: List<Book>.from(
+          json['books'].map((s) => Book.fromJsonForBookSet(s)).toList()),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:bookzapp/model/Book.dart';
+import 'package:bookzapp/screens/MyBookScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 /// creates tap-able widget for [book]
 /// [width] specifies widget width, if no width is specified then 160.00 is used by default
@@ -22,7 +24,8 @@ class BookBox extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
-            Image.network(book.image),
+            FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage, image: book.image),
             //book title container
             Container(
               margin: EdgeInsets.symmetric(horizontal: 4),
@@ -44,8 +47,13 @@ class BookBox extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  //TODO: implement code to open book info page or implement a function variable
                   print("Open book screen: " + book.isbn.toString());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyBookScreen(
+                                book: book,
+                              )));
                 },
               ))),
     ]);

@@ -1,6 +1,7 @@
 import 'package:bookzapp/screens/MyCatalogPage.dart';
 import 'package:bookzapp/screens/MyHomePage.dart';
 import 'package:bookzapp/screens/MyProfileScreen.dart';
+import 'package:bookzapp/screens/MyShoppingList.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget{
@@ -19,8 +20,6 @@ class _MainScreenState extends State<MainScreen>{
   List<Widget> _actions;
   static final myController = TextEditingController();
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
     MyCatalogPage(""),
@@ -57,11 +56,13 @@ class _MainScreenState extends State<MainScreen>{
     });
   }
 
-  void signOut() {
-
+  void showShoppingCart() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyShoppingList(),
+        ));
   }
-
-  void showShoppingCart() {}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -83,7 +84,7 @@ class _MainScreenState extends State<MainScreen>{
             IconButton(
                 icon: Icon(Icons.shopping_cart),
                 tooltip: "Show cart",
-                onPressed: null),
+                onPressed: showShoppingCart),
           ];
           _leading = null;
           break;
