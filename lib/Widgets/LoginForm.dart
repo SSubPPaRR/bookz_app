@@ -10,13 +10,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController userController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
 
   String email;
   String password;
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
 
   //swap to registration screen
   void _changeForm(context) async {
@@ -89,68 +89,205 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
+    //return login form
+    return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-            child: Text("Login to Bookz"),
-          ),
-          TextFormField(
-            controller: userController,
-            decoration: InputDecoration(labelText: "Username"),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter username';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: passController,
-            decoration: InputDecoration(labelText: "Password"),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter password';
-              }
-              return null;
-            },
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.spaceBetween,
-            buttonPadding: EdgeInsets.all(14),
-            children: <Widget>[
-              RaisedButton(
-                onPressed: () => _changeForm(context),
-                child: Text("Register"),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Icon(
+                Icons.short_text,
+                color: Colors.white,
+                size: 40,
               ),
-              RaisedButton(
-                onPressed: () async {
-                  // Validate returns true if the form is valid, or false
-                  // otherwise.
-                  if (_formKey.currentState.validate()) {
-                    // If the form is valid, display a SnackBar.
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        duration: Duration(minutes: 1),
-                        content: Text('Processing...'),
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.width * 0.35,
+            width: double.infinity,
+            child: Center(
+              child: Text(
+                "SignIn Page",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                color: Colors.white,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Spacer(),
+                    Container(
+                      child: Center(
+                        child: Text(
+                          "P",
+                          style: TextStyle(
+                            color: Color(0xFF64d0cb),
+                            fontSize: 90,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    );
-                    email = userController.text.trim();
-                    password = passController.text.trim();
+                    ),
+                    Spacer(),
+                    TextFormField(
+                      controller: userController,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter username';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "User Name",
+                        helperStyle: TextStyle(
+                          color: Colors.black26,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.person,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: passController,
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter password';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        helperStyle: TextStyle(
+                          color: Colors.black26,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Forgotten your Password",
+                          style: TextStyle(
+                            color: Colors.black26,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: FlatButton(
+                        onPressed: () async {
+                          // Validate returns true if the form is valid, or false
+                          // otherwise.
+                          if (_formKey.currentState.validate()) {
+                            // If the form is valid, display a SnackBar.
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(minutes: 1),
+                                content: Text('Processing...'),
+                              ),
+                            );
+                            email = userController.text.trim();
+                            password = passController.text.trim();
 
-                    String authError = await context
-                        .read<AuthenticationService>()
-                        .signIn(email: email, password: password);
-                    _loginError(authError, context);
-                  }
-                },
-                child: Text('Submit'),
-              )
-            ],
-          )
+                            String authError = await context
+                                .read<AuthenticationService>()
+                                .signIn(email: email, password: password);
+                            _loginError(authError, context);
+                          }
+                        },
+                        child: Text(
+                          "LOG IN",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
+                        color: Color(0xFF7dd7d2),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: OutlineButton(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Colors.black38,
+                        ),
+                        onPressed: () => _changeForm(context),
+                        child: Text(
+                          "SIGN UP",
+                          style: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 18,
+                          ),
+                        ),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
+                        color: Color(0xFF7dd7d2),
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
