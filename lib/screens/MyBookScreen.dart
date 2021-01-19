@@ -156,7 +156,6 @@ class __ButtonHandlerState extends State<_ButtonHandler> {
             child: Icon(Icons.add),
             tooltip: "add to cart",
             onPressed: () {
-              // todo: fireStore shoppingCart update here
 
               String uid = context.read<User>().uid;
               DocumentReference document =
@@ -180,7 +179,6 @@ class __ButtonHandlerState extends State<_ButtonHandler> {
             child: Icon(Icons.check),
             tooltip: "add to cart",
             onPressed: () {
-              // todo: fireStore shoppingCart update here
 
               String uid = context.read<User>().uid;
               DocumentReference document =

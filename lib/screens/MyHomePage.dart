@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:bookzapp/Widgets/CatalogCard.dart';
 import 'package:bookzapp/Widgets/CatalogGrid.dart';
 import 'package:bookzapp/model/BookSet.dart';
 import 'package:bookzapp/model/Utilities.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +16,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //TODO: Get topic list from Firebase
   String topic;
-  List<String> topics = ["java", "HTML", "Python", "SQL"];
+
+  // List<String> topics = ["java", "HTML", "Python", "SQL"];
+
+  void setTopic() {
+    DocumentReference document =
+        FirebaseFirestore.instance.collection('main').doc('daily');
+
+    document.get().then((value) {
+      List<dynamic> list = value.get('topics');
+      int index = DateTime.now().day % list.length;
+      topic = list.elementAt(index);
+    });
+  }
 
   //returns list of books based on today's topics
   Future<Map<String, BookSet>> retrieveDailyBooks() async {
-    int rand = new Random().nextInt(topics.length);
-    topic = topics.elementAt(rand);
+    // int rand = new Random().nextInt(topics.length);
+    // topic = topics.elementAt(rand);
     var bookSet = await Utilities.fetchBookSet(
         "https://api.itbook.store/1.0/search/" + topic);
 
@@ -59,20 +70,19 @@ class _MyHomePageState extends State<MyHomePage> {
   // reload new releases
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery
-        .of(context)
-        .size
-        .height -
+    final bodyHeight = MediaQuery.of(context).size.height -
         kToolbarHeight -
         kBottomNavigationBarHeight -
         kTextTabBarHeight;
+
+    setTopic();
+
     return FutureBuilder<Map<String, BookSet>>(
       future: getAllBooks(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: Text('Please wait Homepage is loading...'));
-        }
-        else if (snapshot.data['NewRelease'].error == -1) {
+        } else if (snapshot.data['NewRelease'].error == -1) {
           return RefreshIndicator(
               child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:

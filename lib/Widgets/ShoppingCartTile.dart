@@ -19,7 +19,6 @@ class MyShoppingCartTile extends StatelessWidget {
         trailing: IconButton(
           icon: Icon(Icons.delete),
           onPressed: () {
-            String errorMsg;
             String uid = context.read<User>().uid;
             DocumentReference document =
                 FirebaseFirestore.instance.collection('users').doc(uid);
@@ -29,15 +28,13 @@ class MyShoppingCartTile extends StatelessWidget {
                 })
                 .then((value) => {
                       print("ShoppingCart Updated"),
-                      errorMsg = "ShoppingCart Updated",
                     })
                 .catchError((error) => {
                       print("Failed to update ShoppingCart: $error"),
-                      errorMsg = "Failed to update ShoppingCart: $error",
                     });
             /*Scaffold.of(context)
                 .showSnackBar(SnackBar(content: Text(errorMsg)));*/
-          }, //todo: delete book from list (remove from fireStore & refresh list), popup confirmation?
+          }, //todo: popup confirmation?
         ),
         onTap: () {
           print("open bookScreen for: " + book.isbn.toString());

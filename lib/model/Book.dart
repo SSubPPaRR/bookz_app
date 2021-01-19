@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//todo: add more book attributes for just books
 class Book{
   final int error;
   final String title;

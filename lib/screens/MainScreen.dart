@@ -1,3 +1,4 @@
+import 'package:bookzapp/Widgets/CatalogSearch.dart';
 import 'package:bookzapp/screens/MyCatalogPage.dart';
 import 'package:bookzapp/screens/MyHomePage.dart';
 import 'package:bookzapp/screens/MyProfileScreen.dart';
@@ -18,42 +19,15 @@ class _MainScreenState extends State<MainScreen>{
   Widget _body = _widgetOptions.elementAt(0);
 
   List<Widget> _actions;
-  static final myController = TextEditingController();
 
   static List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
-    MyCatalogPage(""),
+    MyCatalogPage(),
     MyProfileScreen(),
   ];
 
   void showSearchBar() {
-    List<Widget> _searchActions = [
-      IconButton(icon: Icon(Icons.more_vert), tooltip: "More", onPressed: null),
-    ];
-
-    setState(() {
-      //TODO: remove search query from search bar if necessary
-      _leading = IconButton(
-          icon: Icon(Icons.arrow_back), onPressed: () => _onItemTapped(1));
-      _title = TextField(
-          controller: myController,
-          style: TextStyle(fontSize: 22),
-          decoration: InputDecoration(
-              border: UnderlineInputBorder(), hintText: "Search..."),
-          maxLines: 1,
-          autofocus: true,
-          cursorColor: Colors.white,
-          onSubmitted: setSearchQuery);
-      _actions = _searchActions;
-    });
-  }
-
-  void setSearchQuery(String string) {
-    print(string);
-
-    setState(() {
-      _body = MyCatalogPage(string);
-    });
+    showSearch(context: context, delegate: CatalogSearch());
   }
 
   void showShoppingCart() {
@@ -80,7 +54,6 @@ class _MainScreenState extends State<MainScreen>{
                 icon: Icon(Icons.search),
                 tooltip: "Search",
                 onPressed: showSearchBar),
-            //TODO: Implement function for shoppingCart screen here
             IconButton(
                 icon: Icon(Icons.shopping_cart),
                 tooltip: "Show cart",

@@ -54,4 +54,24 @@ class Utilities {
   static Future<List<Book>> getListFromISBNS(List<dynamic> isbns) async {
     return Future.wait(isbns.map((e) => fetchBook(e.toString())));
   }
+
+  static List<Book> sortBookList(int sortOption, List<Book> list) {
+    switch (sortOption) {
+      case 0:
+        break;
+
+      case 1:
+        list.sort((a, b) => a.title.compareTo(b.title));
+        break;
+
+      case 2:
+        list.sort((a, b) => a.isbn.compareTo(b.isbn));
+        break;
+
+      case 3:
+        list.sort((a, b) => a.price.compareTo(b.price));
+        break;
+    }
+    return list;
+  }
 }
