@@ -8,6 +8,11 @@ class Book{
   final double price;
   final String image;
   final String url;
+  int rating;
+  String publisher;
+  String authors;
+  String desc;
+  Map<String, dynamic> pdf;
 
   Book({
     @required this.error,
@@ -17,6 +22,11 @@ class Book{
     @required this.price,
     @required this.image,
     @required this.url,
+    this.rating,
+    this.publisher,
+    this.authors,
+    this.desc,
+    this.pdf,
   });
 
   @override
@@ -33,6 +43,11 @@ class Book{
       price: double.parse(json['price'].toString().replaceFirst('\$', '')),
       image: json['image'] as String,
       url: json['url'] as String,
+      rating: int.parse(json['rating']),
+      publisher: json['publisher'],
+      authors: json['authors'],
+      desc: json['desc'],
+      pdf: json['pdf'],
     );
   }
 

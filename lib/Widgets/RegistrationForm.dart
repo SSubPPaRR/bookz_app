@@ -141,6 +141,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       validator: (value) {
+                        password = value;
                         if (value.isEmpty) {
                           return 'Please enter password';
                         }

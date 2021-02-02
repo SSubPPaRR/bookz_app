@@ -1,3 +1,4 @@
+import 'package:bookzapp/Widgets/CheckoutMenu.dart';
 import 'package:bookzapp/Widgets/ShoppingCartTile.dart';
 import 'package:bookzapp/model/Book.dart';
 import 'package:bookzapp/model/Utilities.dart';
@@ -22,6 +23,7 @@ class _MyShoppingListState extends State<MyShoppingList> {
     String uid = context.watch<User>().uid;
     DocumentReference document =
         FirebaseFirestore.instance.collection('users').doc(uid);
+    List<Book> books;
     return Scaffold(
       appBar: AppBar(
         title: Text("Shopping cart"),
@@ -32,16 +34,17 @@ class _MyShoppingListState extends State<MyShoppingList> {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text("Loading..."));
+              return Center(child: CircularProgressIndicator());
             } else
               return FutureBuilder(
                   future: getCart(snapshot.data.data()['shoppingCart']),
                   builder: (context, snapshot) {
-                    List<Book> books = snapshot.data;
+                    books = snapshot.data;
+
                     print(books);
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text("Loading..."));
-                    } else
+                      return Center(child: CircularProgressIndicator());
+                    } else {
                       return ListView(
                         children: books
                             .map((book) => MyShoppingCartTile(
@@ -49,8 +52,19 @@ class _MyShoppingListState extends State<MyShoppingList> {
                                 ))
                             .toList(),
                       );
+                    }
                   });
           }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return CheckoutMenu(books);
+              });
+        },
+        child: Icon(Icons.shopping_cart),
+      ),
     );
   }
 }

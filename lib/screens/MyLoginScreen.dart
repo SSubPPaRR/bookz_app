@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class MyLoginScreenState extends StatelessWidget {
+class MyLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //return login form

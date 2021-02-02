@@ -1,10 +1,12 @@
- return ListView(
-        children: snapshot.data.map((book) => MyShoppingCartTile(book: book,)).toList(),
-      );
-
-
-      FutureBuilder<List<Book>>(
-            future: getCart(context.watch<User>().uid),
-              builder: (context, snapshot){
-              return null;
-          });
+AlertDialog(
+                    title: Text('Are you sure you want to delete?'),
+                    content: Text(book.title),
+                    actions: <Widget>[
+                      OutlineButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No')),
+                      FlatButton(onPressed: removeFromCart, child: Text('Yes')),
+                    ],
+                  );

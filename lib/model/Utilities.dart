@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:web_scraper/web_scraper.dart';
 
 import 'Book.dart';
 import 'BookSet.dart';
@@ -53,5 +54,51 @@ class Utilities {
 
   static Future<List<Book>> getListFromISBNS(List<dynamic> isbns) async {
     return Future.wait(isbns.map((e) => fetchBook(e.toString())));
+  }
+
+  static List<Book> sortBookList(int sortOption, List<Book> list) {
+    switch (sortOption) {
+      case 0:
+        break;
+
+      case 1:
+        list.sort((a, b) => a.title.compareTo(b.title));
+        break;
+
+      case 2:
+        list.sort((a, b) => a.isbn.compareTo(b.isbn));
+        break;
+
+      case 3:
+        list.sort((a, b) => a.price.compareTo(b.price));
+        break;
+    }
+    return list;
+  }
+
+  static Future<String> getPDFFromDBooks(String s) async {
+    String path;
+    int split;
+
+    if (s.startsWith('https://www.dbooks.org/d/')) {
+      split = s.indexOf('/d');
+      path = s.substring(split);
+    } else {
+      path = '/';
+      split = s.indexOf('/', 10);
+    }
+
+    s = s.substring(0, split);
+    final webScraper = WebScraper(s);
+    if (await webScraper.loadWebPage(path)) {
+      List<Map<String, dynamic>> elements =
+          webScraper.getElement('a.btn-down', ['href']);
+      print(elements);
+      path = elements[0]['attributes']['href']
+          .toString()
+          .replaceFirst('/d/', '/r/');
+      s = s + path;
+    }
+    return s;
   }
 }
