@@ -43,15 +43,22 @@ class MyShoppingCartTile extends StatelessWidget {
                   }
 
                   return AlertDialog(
-                    title: Text('Are you sure you want to delete?'),
-                    content: Text(book.title),
-                    actions: <Widget>[
-                      OutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('No')),
-                      FlatButton(onPressed: removeFromCart, child: Text('Yes')),
+                    title: Text('Remove book?'),
+                    content: Text(
+                        'Are you sure you want to delete book from shopping cart?'),
+                    actions: [
+                      FlatButton(
+                        textColor: Color(0xFF6200EE),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('CANCEL'),
+                      ),
+                      FlatButton(
+                        textColor: Color(0xFF6200EE),
+                        onPressed: removeFromCart,
+                        child: Text('ACCEPT'),
+                      ),
                     ],
                   );
                 });

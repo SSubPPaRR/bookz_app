@@ -57,7 +57,6 @@ class CatalogSearch extends SearchDelegate<Book> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     return CatalogSearchResult(query, sortOption);
   }
 

@@ -46,7 +46,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
           future: retrieveSearchedBooks(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text('Please wait catalog is loading...'));
+              return Center(child: CircularProgressIndicator());
             } else if (snapshot.data.error == -1) {
               return RefreshIndicator(
                   child: NotificationListener<OverscrollIndicatorNotification>(
@@ -74,6 +74,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
                   onRefresh: () => refresh());
             } else
               return RefreshIndicator(
+                //todo: add ability to load more search results
                 child: CatalogSearchList(Utilities.sortBookList(
                     widget.sortOption, snapshot.data.books)),
                 onRefresh: () => refresh(),

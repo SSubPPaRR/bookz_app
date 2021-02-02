@@ -34,7 +34,7 @@ class _MyShoppingListState extends State<MyShoppingList> {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text("Loading..."));
+              return Center(child: CircularProgressIndicator());
             } else
               return FutureBuilder(
                   future: getCart(snapshot.data.data()['shoppingCart']),
@@ -43,7 +43,7 @@ class _MyShoppingListState extends State<MyShoppingList> {
 
                     print(books);
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text("Loading..."));
+                      return Center(child: CircularProgressIndicator());
                     } else {
                       return ListView(
                         children: books

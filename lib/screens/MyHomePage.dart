@@ -1,23 +1,19 @@
-import 'package:bookzapp/Widgets/CatalogCard.dart';
-import 'package:bookzapp/Widgets/CatalogGrid.dart';
+import 'package:bookzapp/Widgets/BookCard.dart';
+import 'package:bookzapp/Widgets/BookGrid.dart';
 import 'package:bookzapp/model/BookSet.dart';
 import 'package:bookzapp/model/Utilities.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-class MyHomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  //TODO: Get topic list from Firebase
   String topic;
-
-  // List<String> topics = ["java", "HTML", "Python", "SQL"];
 
   void setTopic() {
     DocumentReference document =
@@ -47,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<BookSet> retrieveNewReleases() async {
     var bookSet =
         await Utilities.fetchBookSet("https://api.itbook.store/1.0/new");
-
     return bookSet;
   }
 
@@ -81,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       future: getAllBooks(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: Text('Please wait Homepage is loading...'));
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.data['NewRelease'].error == -1) {
           return RefreshIndicator(
               child: NotificationListener<OverscrollIndicatorNotification>(
