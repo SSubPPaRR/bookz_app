@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_scraper/web_scraper.dart';
 
@@ -100,5 +101,13 @@ class Utilities {
       s = s + path;
     }
     return s;
+  }
+
+  static Future<bool> valPassword(String password) async {
+    User user = FirebaseAuth.instance.currentUser;
+    EmailAuthCredential credential =
+        EmailAuthProvider.credential(email: user.email, password: password);
+    var result = await user.reauthenticateWithCredential(credential);
+    return result.user != null;
   }
 }
