@@ -147,7 +147,7 @@ class _LoginFormState extends State<LoginForm> {
                     Spacer(),
                     TextFormField(
                       controller: userController,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter username';
