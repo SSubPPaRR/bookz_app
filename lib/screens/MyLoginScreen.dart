@@ -8,8 +8,9 @@ class MyLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //return login form
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFF7dd7d2),
-      body: LoginForm(),
+      body: LoginForm()
     );
   }
 }

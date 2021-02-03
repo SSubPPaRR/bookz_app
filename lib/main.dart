@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/MyLoginScreen.dart';
+
+import 'package:bookzapp/screens/MyLoginScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

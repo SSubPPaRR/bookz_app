@@ -14,7 +14,7 @@ class CatalogGrid extends StatelessWidget{
   Widget build(BuildContext context) {
     if (_list.isNotEmpty) {
       return Card(
-        color: Colors.purple,
+        color: Colors.white,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 5),
           child: Column(
@@ -24,7 +24,7 @@ class CatalogGrid extends StatelessWidget{
               Text(
                 "  " + _catGridTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
 

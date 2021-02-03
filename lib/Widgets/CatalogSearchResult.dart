@@ -3,6 +3,7 @@ import 'package:bookzapp/model/BookSet.dart';
 import 'package:bookzapp/model/Utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CatalogSearchResult extends StatefulWidget {
   final String query;
@@ -46,7 +47,10 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
           future: retrieveSearchedBooks(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: SpinKitCubeGrid(
+                color: Colors.blue,
+                size: 50.0,
+              ));
             } else if (snapshot.data.error == -1) {
               return RefreshIndicator(
                   child: NotificationListener<OverscrollIndicatorNotification>(

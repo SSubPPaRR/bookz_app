@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget{
 class _MainScreenState extends State<MainScreen>{
 
   int _selectedIndex = 0;
-  Widget _title = Text("Home");
+  Widget _title = Text("Hoe");
   Widget _leading;
   Widget _body = _widgetOptions.elementAt(0);
 
@@ -62,6 +62,12 @@ class _MainScreenState extends State<MainScreen>{
           _leading = null;
           break;
         case 2:
+          _title = Text("Profile");
+          _actions = null;
+          _leading = null;
+          break;
+
+        case 3:
           _title = Text("Profile");
           _actions = null;
           _leading = null;

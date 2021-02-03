@@ -31,6 +31,7 @@ dependencies:
   cloud_firestore: "^0.14.4"
   advance_pdf_viewer: any
   web_scraper: ^0.0.8
+  flutter_spinkit: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

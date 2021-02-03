@@ -93,17 +93,6 @@ class _LoginFormState extends State<LoginForm> {
     return SafeArea(
       child: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Icon(
-                Icons.short_text,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          ),
           Container(
             height: MediaQuery.of(context).size.width * 0.35,
             width: double.infinity,
