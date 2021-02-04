@@ -1,9 +1,9 @@
 import 'package:bookzapp/Widgets/CatalogSearchResultGrid.dart';
 import 'package:bookzapp/model/BookSet.dart';
+import 'package:bookzapp/model/KeepAliveFutureBuilder.dart';
 import 'package:bookzapp/model/Utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CatalogSearchResult extends StatefulWidget {
   final String query;
@@ -62,7 +62,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
               if (latestPage < index + 1) {
                 latestPage = index + 1;
               }
-              return FutureBuilder(
+              return KeepAliveFutureBuilder(
                   future: retrieveSearchedBooks(index + 1),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,10 +70,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
                           height: MediaQuery.of(context).size.height * 2,
                           child: Align(
                               alignment: Alignment.topCenter,
-                              child: SpinKitCubeGrid(
-                                color: Colors.blue,
-                                size: 50.0,
-                              )));
+                              child: CircularProgressIndicator()));
                     }
                     // this part might need to be reworked
                     else if (snapshot.data.error == -1) {
@@ -94,7 +91,8 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
                     } else {
                       print('latest page: $latestPage');
                       //grid items here
-                      return CatalogSearchResultGrid(snapshot.data.books);
+                      return CatalogSearchResultGrid(Utilities.sortBookList(
+                          widget.sortOption, snapshot.data.books));
                     }
                   });
             }),
