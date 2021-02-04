@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class MyShoppingList extends StatefulWidget {
@@ -34,7 +35,11 @@ class _MyShoppingListState extends State<MyShoppingList> {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: SpinKitCubeGrid(
+                color: Colors.blue,
+                size: 50.0,
+              ));
             } else
               return FutureBuilder(
                   future: getCart(snapshot.data.data()['shoppingCart']),
@@ -43,7 +48,11 @@ class _MyShoppingListState extends State<MyShoppingList> {
 
                     print(books);
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(
+                          child: SpinKitCubeGrid(
+                        color: Colors.blue,
+                        size: 50.0,
+                      ));
                     } else {
                       return ListView(
                         children: books
