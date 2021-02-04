@@ -1,22 +1,26 @@
+// this will replace CatalogSearchResultGrid
 import 'package:bookzapp/model/Book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'BookBox.dart';
 
-class CatalogSearchList extends StatelessWidget {
+class CatalogSearchResultGrid extends StatelessWidget {
   final List<Book> _list;
 
-  CatalogSearchList(this._list);
+  CatalogSearchResultGrid(this._list);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      color: Colors.deepOrange,
+    // final orientation = MediaQuery.of(context).orientation;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
       child: GridView.count(
-          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           crossAxisCount: 2,
+          //(orientation == Orientation.portrait) ? 2 : 3
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
           padding: EdgeInsets.symmetric(horizontal: 5),
