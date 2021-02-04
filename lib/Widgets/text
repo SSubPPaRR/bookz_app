@@ -1,12 +1,49 @@
-AlertDialog(
-                    title: Text('Are you sure you want to delete?'),
-                    content: Text(book.title),
-                    actions: <Widget>[
-                      OutlineButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('No')),
-                      FlatButton(onPressed: removeFromCart, child: Text('Yes')),
-                    ],
-                  );
+      return FutureBuilder(
+          future: retrieveSearchedBooks(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.data.error == -1) {
+              return RefreshIndicator(
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification:
+                          (OverscrollIndicatorNotification overScroll) {
+                        overScroll.disallowGlow();
+                        return true;
+                      },
+                      child: SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Container(
+                              alignment: Alignment.center,
+                              color: Colors.red,
+                              height: bodyHeight,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.signal_wifi_off,
+                                    size: 50,
+                                  ),
+                                  Text('No connection, reload to try again'),
+                                ],
+                              )))),
+                  onRefresh: () => refresh());
+            }
+            else {
+              print('current page: $currentPage');
+              if(currentPage ==  2) {
+                maxPages = (snapshot.data.total / 10).round();
+              }
+              return RefreshIndicator(
+                //todo: add ability to load more search results
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  color: Colors.deepOrange,
+                  child: CatalogSearchList(Utilities.sortBookList(
+                      widget.sortOption, snapshot.data.books)),
+                ),
+                onRefresh: () => refresh(),
+              );
+            }
+          }
+      );
