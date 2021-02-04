@@ -17,7 +17,7 @@ class CatalogCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Card(
-        color: Colors.white,
+        color: Colors.white60,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Column(

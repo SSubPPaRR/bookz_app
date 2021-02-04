@@ -14,7 +14,7 @@ class CatalogGrid extends StatelessWidget{
   Widget build(BuildContext context) {
     if (_list.isNotEmpty) {
       return Card(
-        color: Colors.white,
+        color: Colors.white60,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 5),
           child: Column(
