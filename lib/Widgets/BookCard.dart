@@ -15,29 +15,31 @@ class CatalogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.purple,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "  " + _catCardTitle,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+    return Container(
+      child: Card(
+        color: Colors.white60,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "  " + _catCardTitle,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-              height: 200.0,
-              child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: _list.map((book) => BookBox(book)).toList()),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                height: 200.0,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: _list.map((book) => BookBox(book)).toList()),
+              ),
+            ],
+          ),
         ),
       ),
     );

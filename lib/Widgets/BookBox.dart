@@ -3,6 +3,7 @@ import 'package:bookzapp/model/Utilities.dart';
 import 'package:bookzapp/screens/MyBookScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 /// creates tap-able widget for [book]
@@ -21,7 +22,25 @@ class BookBox extends StatelessWidget {
         alignment: Alignment.topCenter,
         margin: EdgeInsets.symmetric(horizontal: 5.0),
         width: width,
-        color: Colors.black,
+        decoration: BoxDecoration(
+            color: Colors.grey[100],
+            border: Border.all(
+              color: Colors.red,
+              width: 0,
+            ),
+            borderRadius: BorderRadius.circular(15),
+            gradient: new LinearGradient(
+              colors: [Colors.white70, Colors.white],
+              begin: Alignment.centerRight,
+              end: new Alignment(-1.0, -1.0),
+            ),
+            boxShadow: [
+              new BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5.0,
+              )
+            ]),
+        //color of the shits
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
@@ -36,7 +55,7 @@ class BookBox extends StatelessWidget {
                 book.title,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -62,7 +81,10 @@ class BookBox extends StatelessWidget {
                                       leading: Icon(Icons.arrow_back),
                                     ),
                                     body: Center(
-                                      child: CircularProgressIndicator(),
+                                      child: SpinKitCubeGrid(
+                                        color: Colors.blue,
+                                        size: 50.0,
+                                      ),
                                     ),
                                   );
                                 }
