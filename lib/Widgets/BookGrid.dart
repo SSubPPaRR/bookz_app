@@ -1,4 +1,3 @@
-
 import 'package:bookzapp/Widgets/BookBox.dart';
 import 'package:bookzapp/model/Book.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +13,7 @@ class CatalogGrid extends StatelessWidget{
   Widget build(BuildContext context) {
     if (_list.isNotEmpty) {
       return Card(
-        color: Colors.purple,
+        color: Colors.white60,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 5),
           child: Column(
@@ -24,10 +23,9 @@ class CatalogGrid extends StatelessWidget{
               Text(
                 "  " + _catGridTitle,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-
                 ),
               ),
               Container(
