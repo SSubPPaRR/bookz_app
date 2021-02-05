@@ -97,7 +97,7 @@ class MyShoppingCartTile extends StatelessWidget {
                             )));
               },
             ),
-            counter(),
+            Counter(),
           ],
         ),
       ),
@@ -105,12 +105,12 @@ class MyShoppingCartTile extends StatelessWidget {
   }
 }
 
-class counter extends StatefulWidget {
+class Counter extends StatefulWidget {
   @override
-  _counterState createState() => _counterState();
+  _CounterState createState() => _CounterState();
 }
 
-class _counterState extends State<counter> {
+class _CounterState extends State<Counter> {
   void incrementCounter() {
     setState(() {
       if (counter2 == 99) {
