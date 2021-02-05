@@ -7,78 +7,213 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyBookScreen extends StatelessWidget {
+class MyBookScreen extends StatefulWidget {
   final Book book;
 
   const MyBookScreen({this.book});
 
   @override
+  _MyBookScreenState createState() => _MyBookScreenState();
+}
+
+class _MyBookScreenState extends State<MyBookScreen>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
+      body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Container(
+              color: Colors.blue,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Stack(
                 children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Image.network(book.image),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: _BookInfo(
-                      title: book.title,
-                      subtitle: book.subTitle,
-                      publisher: book.publisher,
-                      authors: book.authors,
-                      rating: book.rating,
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                      child: Image.network(
+                        widget.book.image,
+                        height: 180,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Description:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(book.desc),
-                ],
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.book.title,
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.book.authors,
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "\$" + widget.book.price.toString(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    _Rating(
+                      rating: widget.book.rating,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TabBar(
+                      controller: _tabController,
+                      indicator: UnderlineTabIndicator(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.5),
+                          insets: EdgeInsets.fromLTRB(
+                            0.0,
+                            0.0,
+                            50.0,
+                            0.0,
+                          )),
+                      unselectedLabelStyle: TextStyle(color: Colors.grey[500]),
+                      unselectedLabelColor: Colors.grey[500],
+                      labelColor: Colors.black,
+                      labelStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                      isScrollable: false,
+                      labelPadding: EdgeInsets.only(left: 0, right: 20),
+                      tabs: [
+                        _tabWidget("Description"),
+                        _tabWidget("Info"),
+                        _tabWidget("Help"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            Container(
+                              child: Text(
+                                widget.book.desc,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            Container(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /* title: book.title,
+                                subtitle: book.subTitle,
+                                publisher: book.publisher,
+                                authors: book.authors,
+                                rating: book.rating,*/
+                                Text(
+                                  "Title: " + widget.book.title,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  "Subtitles: " + widget.book.subTitle,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  "Publisher: " + widget.book.publisher,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  "Authors: " + widget.book.authors,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  "Chapters:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                _ChapterList(
+                                  chapters: widget.book.pdf,
+                                ),
+                              ],
+                            )),
+                            Container(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Contact",
+                                  style: TextStyle(
+                                      fontSize: 50,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "For Support please contact us at: ",
+                                  style: TextStyle(fontSize: 25),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Phone Number: COCK-900000000",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  "Email: CockSlayer@pussy.com",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            )),
+                          ],
+                        ))
+                  ],
+                ),
               ),
-            ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Chapters:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  _ChapterList(
-                    chapters: book.pdf,
-                  )
-                ],
-              ),
-            ),
+            )
           ],
         ),
       ),
-      floatingActionButton: _ButtonHandler(book),
+      floatingActionButton: _ButtonHandler(widget.book),
+    );
+  }
+
+  Widget _tabWidget(String title) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 5),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 20),
+      ),
     );
   }
 }
+
+/**/
 
 ///rating widget gives filled in stars determined by [rating] / [maxRating]
 ///[maxRating] = 5 by default
@@ -289,48 +424,108 @@ class __ButtonHandlerState extends State<_ButtonHandler> {
   Widget build(BuildContext context) {
     return (add)
         ? FloatingActionButton(
-            child: Icon(Icons.add),
+            child: Icon(Icons.add_shopping_cart),
             tooltip: "add to cart",
             onPressed: () {
               String uid = context.read<User>().uid;
               DocumentReference document =
                   FirebaseFirestore.instance.collection('users').doc(uid);
               document
-              .update({
-            'shoppingCart': FieldValue.arrayUnion([book.isbn])
-          })
-              .then((value) => {
-            print("Book added to cart"),
-            showError(context, "Book added to cart"),
-          })
-              .catchError((error) => {
-            print("Failed to update ShoppingCart: $error"),
-            showError(
-                context, "Failed to update ShoppingCart: $error"),
-          });
-          swapState();
-        })
+                  .update({
+                    'shoppingCart': FieldValue.arrayUnion([book.isbn])
+                  })
+                  .then((value) => {
+                        print("Book added to cart"),
+                        showError(context, "Book added to cart"),
+                      })
+                  .catchError((error) => {
+                        print("Failed to update ShoppingCart: $error"),
+                        showError(
+                            context, "Failed to update ShoppingCart: $error"),
+                      });
+              swapState();
+            })
         : FloatingActionButton(
-        child: Icon(Icons.check),
-        tooltip: "add to cart",
-        onPressed: () {
-          String uid = context.read<User>().uid;
-          DocumentReference document =
-          FirebaseFirestore.instance.collection('users').doc(uid);
-          document
-              .update({
-            'shoppingCart': FieldValue.arrayRemove([book.isbn])
-          })
-              .then((value) => {
-            print("Book removed from cart"),
-            showError(context, "Book removed from cart"),
-          })
-              .catchError((error) => {
-            print("Failed to update ShoppingCart: $error"),
-            showError(
-                context, "Failed to update ShoppingCart: $error"),
-          });
-          swapState();
-        });
+            child: Icon(Icons.check),
+            tooltip: "add to cart",
+            onPressed: () {
+              String uid = context.read<User>().uid;
+              DocumentReference document =
+                  FirebaseFirestore.instance.collection('users').doc(uid);
+              document
+                  .update({
+                    'shoppingCart': FieldValue.arrayRemove([book.isbn])
+                  })
+                  .then((value) => {
+                        print("Book removed from cart"),
+                        showError(context, "Book removed from cart"),
+                      })
+                  .catchError((error) => {
+                        print("Failed to update ShoppingCart: $error"),
+                        showError(
+                            context, "Failed to update ShoppingCart: $error"),
+                      });
+              swapState();
+            });
   }
 }
+
+/*SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Image.network(book.image),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: _BookInfo(
+                      title: book.title,
+                      subtitle: book.subTitle,
+                      publisher: book.publisher,
+                      authors: book.authors,
+                      rating: book.rating,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Description:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(book.desc),
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Chapters:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  _ChapterList(
+                    chapters: book.pdf,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),*/
