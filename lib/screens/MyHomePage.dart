@@ -63,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // reload new releases
   @override
   Widget build(BuildContext context) {
     final bodyHeight = MediaQuery.of(context).size.height -

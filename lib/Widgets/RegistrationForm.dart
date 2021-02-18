@@ -91,176 +91,177 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Spacer(),
-                    Container(
-                      child: Center(
-                        child: Text(
-                          "P",
-                          style: TextStyle(
-                            color: Color(0xFF64d0cb),
-                            fontSize: 90,
-                            fontWeight: FontWeight.bold,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Center(
+                          child: Text(
+                            "Bookz",
+                            style: TextStyle(
+                              color: Color(0xFF64d0cb),
+                              fontSize: 90,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    TextFormField(
-                      controller: userController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter email';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Email Address",
-                        helperStyle: TextStyle(
-                          color: Colors.black26,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.mail,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      controller: passController,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        password = value;
-                        if (value.isEmpty) {
-                          return 'Please enter password';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        helperStyle: TextStyle(
-                          color: Colors.black26,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please confirm password';
-                        } else if (value != password) {
-                          return 'Password does not match, try again!';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Confirm Password",
-                        helperStyle: TextStyle(
-                          color: Colors.black26,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: FlatButton(
-                        onPressed: () async {
-                          // Validate returns true if the form is valid, or false
-                          // otherwise.
-                          if (_formKey.currentState.validate()) {
-                            // If the form is valid, display a SnackBar.
-                            Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text('Processing Data')));
-
-                            String authError = await context
-                                .read<AuthenticationService>()
-                                .signUp(
-                                    email: userController.text.trim(),
-                                    password: passController.text.trim());
-
-                            _registerError(authError, context);
+                      TextFormField(
+                        controller: userController,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter email';
                           }
+                          return null;
                         },
-                        child: Text(
-                          "SIGN UP",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                        decoration: InputDecoration(
+                          hintText: "Email Address",
+                          helperStyle: TextStyle(
+                            color: Colors.black26,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.mail,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                              width: 1,
+                            ),
                           ),
                         ),
-                        shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide.none,
-                        ),
-                        color: Color(0xFF7dd7d2),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: OutlineButton(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colors.black38,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        controller: passController,
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          password = value;
+                          if (value.isEmpty) {
+                            return 'Please enter password';
+                          }
+                          return null;
                         },
-                        child: Text(
-                          "RETURN TO LOG IN",
-                          style: TextStyle(
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          helperStyle: TextStyle(
+                            color: Colors.black26,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please confirm password';
+                          } else if (value != password) {
+                            return 'Password does not match, try again!';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Confirm Password",
+                          helperStyle: TextStyle(
+                            color: Colors.black26,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.black26,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 160,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: FlatButton(
+                          onPressed: () async {
+                            // Validate returns true if the form is valid, or false
+                            // otherwise.
+                            if (_formKey.currentState.validate()) {
+                              // If the form is valid, display a SnackBar.
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Processing Data')));
+
+                              String authError = await context
+                                  .read<AuthenticationService>()
+                                  .signUp(
+                                      email: userController.text.trim(),
+                                      password: passController.text.trim());
+
+                              _registerError(authError, context);
+                            }
+                          },
+                          child: Text(
+                            "SIGN UP",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
+                          ),
+                          color: Color(0xFF7dd7d2),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: OutlineButton(
+                          borderSide: BorderSide(
+                            width: 1,
                             color: Colors.black38,
-                            fontSize: 18,
                           ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "RETURN TO LOG IN",
+                            style: TextStyle(
+                              color: Colors.black38,
+                              fontSize: 18,
+                            ),
+                          ),
+                          shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none,
+                          ),
+                          color: Color(0xFF7dd7d2),
                         ),
-                        shape: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide.none,
-                        ),
-                        color: Color(0xFF7dd7d2),
                       ),
-                    ),
-                    Spacer(),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

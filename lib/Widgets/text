@@ -1,49 +1,151 @@
-      return FutureBuilder(
-          future: retrieveSearchedBooks(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.data.error == -1) {
-              return RefreshIndicator(
-                  child: NotificationListener<OverscrollIndicatorNotification>(
-                      onNotification:
-                          (OverscrollIndicatorNotification overScroll) {
-                        overScroll.disallowGlow();
-                        return true;
+                    Container(
+                      child: Center(
+                        child: Text(
+                          "P",
+                          style: TextStyle(
+                            color: Color(0xFF64d0cb),
+                            fontSize: 90,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    TextFormField(
+                      controller: userController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter username';
+                        }
+                        return null;
                       },
-                      child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          child: Container(
-                              alignment: Alignment.center,
-                              color: Colors.red,
-                              height: bodyHeight,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.signal_wifi_off,
-                                    size: 50,
-                                  ),
-                                  Text('No connection, reload to try again'),
-                                ],
-                              )))),
-                  onRefresh: () => refresh());
-            }
-            else {
-              print('current page: $currentPage');
-              if(currentPage ==  2) {
-                maxPages = (snapshot.data.total / 10).round();
-              }
-              return RefreshIndicator(
-                //todo: add ability to load more search results
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  color: Colors.deepOrange,
-                  child: CatalogSearchList(Utilities.sortBookList(
-                      widget.sortOption, snapshot.data.books)),
-                ),
-                onRefresh: () => refresh(),
-              );
-            }
-          }
-      );
+                      decoration: InputDecoration(
+                        hintText: "User Name",
+                        helperStyle: TextStyle(
+                          color: Colors.black26,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.person,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: passController,
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter password';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        helperStyle: TextStyle(
+                          color: Colors.black26,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Forgotten your Password",
+                          style: TextStyle(
+                            color: Colors.black26,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: FlatButton(
+                        onPressed: () async {
+                          // Validate returns true if the form is valid, or false
+                          // otherwise.
+                          if (_formKey.currentState.validate()) {
+                            // If the form is valid, display a SnackBar.
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(minutes: 1),
+                                content: Text('Processing...'),
+                              ),
+                            );
+                            email = userController.text.trim();
+                            password = passController.text.trim();
+
+                            String authError = await context
+                                .read<AuthenticationService>()
+                                .signIn(email: email, password: password);
+                            _loginError(authError, context);
+                          }
+                        },
+                        child: Text(
+                          "LOG IN",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
+                        color: Color(0xFF7dd7d2),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: OutlineButton(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Colors.black38,
+                        ),
+                        onPressed: () => _changeForm(context),
+                        child: Text(
+                          "SIGN UP",
+                          style: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 18,
+                          ),
+                        ),
+                        shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none,
+                        ),
+                        color: Color(0xFF7dd7d2),
+                      ),
+                    ),
+                    Spacer(),
