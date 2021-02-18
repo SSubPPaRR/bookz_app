@@ -22,9 +22,8 @@ class _MyBookScreenState extends State<MyBookScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -109,7 +108,6 @@ class _MyBookScreenState extends State<MyBookScreen>
                       tabs: [
                         _tabWidget("Description"),
                         _tabWidget("Info"),
-                        _tabWidget("Help"),
                       ],
                     ),
                     SizedBox(
@@ -162,33 +160,6 @@ class _MyBookScreenState extends State<MyBookScreen>
                                 ),
                               ],
                             )),
-                            Container(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Contact",
-                                  style: TextStyle(
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  "For Support please contact us at: ",
-                                  style: TextStyle(fontSize: 25),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Phone Number: COCK-900000000",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  "Email: CockSlayer@pussy.com",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            )),
                           ],
                         ))
                   ],
@@ -237,60 +208,6 @@ class _Rating extends StatelessWidget {
           } else
             return Icon(Icons.star_border);
         }),
-      ),
-    );
-  }
-}
-
-class _BookInfo extends StatelessWidget {
-  const _BookInfo({
-    Key key,
-    this.title,
-    this.subtitle,
-    this.publisher,
-    this.authors,
-    this.rating,
-  }) : super(key: key);
-
-  final String title;
-  final String subtitle;
-  final String publisher;
-  final String authors;
-  final int rating;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 16.0, 0.0, 0.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16.0,
-            ),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          Text(
-            subtitle,
-            style: const TextStyle(fontSize: 13.0),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Text(
-            authors,
-            style: const TextStyle(fontSize: 12.0),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Text(
-            publisher,
-            style: const TextStyle(fontSize: 12.0),
-          ),
-          _Rating(
-            rating: rating,
-          )
-        ],
       ),
     );
   }

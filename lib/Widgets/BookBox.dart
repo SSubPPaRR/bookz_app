@@ -25,7 +25,7 @@ class BookBox extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.grey[100],
             border: Border.all(
-              color: Colors.red,
+              color: Colors.lightBlueAccent,
               width: 0,
             ),
             borderRadius: BorderRadius.circular(15),

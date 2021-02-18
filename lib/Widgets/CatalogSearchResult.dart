@@ -54,7 +54,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
     } else {
       //get searched books
       return Container(
-        color: Colors.deepOrange,
+        color: Colors.white60,
         child: ListView.builder(
             addAutomaticKeepAlives: true,
             itemCount: maxPages,
@@ -76,7 +76,7 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
                     else if (snapshot.data.error == -1) {
                       return Container(
                           alignment: Alignment.center,
-                          color: Colors.red,
+                          color: Colors.grey,
                           height: bodyHeight,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

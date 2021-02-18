@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       physics: AlwaysScrollableScrollPhysics(),
                       child: Container(
                           alignment: Alignment.center,
-                          color: Colors.red,
+                          color: Colors.grey[50],
                           height: bodyHeight,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

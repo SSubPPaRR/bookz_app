@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-//todo:fix keyboard ui bug
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -79,6 +78,14 @@ class _LoginFormState extends State<LoginForm> {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Wrong password provided for that user.'),
+        ),
+      );
+    } else if (errorCode == 'network-request-failed') {
+      print('Connection timed out.');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Connection timed out.'),
+          backgroundColor: Colors.red,
         ),
       );
     } else {
