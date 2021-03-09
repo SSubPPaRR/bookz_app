@@ -184,7 +184,6 @@ class _MyBookScreenState extends State<MyBookScreen>
   }
 }
 
-/**/
 
 ///rating widget gives filled in stars determined by [rating] / [maxRating]
 ///[maxRating] = 5 by default
@@ -387,62 +386,3 @@ class __ButtonHandlerState extends State<_ButtonHandler> {
   }
 }
 
-/*SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Image.network(book.image),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: _BookInfo(
-                      title: book.title,
-                      subtitle: book.subTitle,
-                      publisher: book.publisher,
-                      authors: book.authors,
-                      rating: book.rating,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Description:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(book.desc),
-                ],
-              ),
-            ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Chapters:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  _ChapterList(
-                    chapters: book.pdf,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),*/

@@ -40,10 +40,6 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
 
   Widget build(BuildContext context) {
     // calculate height for search result widget
-    final bodyHeight = MediaQuery.of(context).size.height -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        kTextTabBarHeight;
 
     print("SQ: " + widget.query);
     print("SO: " + widget.sortOption.toString());
@@ -72,20 +68,18 @@ class _CatalogSearchResultState extends State<CatalogSearchResult> {
                               alignment: Alignment.topCenter,
                               child: CircularProgressIndicator()));
                     }
-                    // this part might need to be reworked
                     else if (snapshot.data.error == -1) {
                       return Container(
                           alignment: Alignment.center,
                           color: Colors.grey,
-                          height: bodyHeight,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Icon(
-                                Icons.signal_wifi_off,
+                                Icons.warning_amber_sharp,
                                 size: 50,
                               ),
-                              Text('No connection, reload to try again'),
+                              Text('Failed to generate module'),
                             ],
                           ));
                     } else {

@@ -1,5 +1,6 @@
 import 'package:bookzapp/Widgets/BookCard.dart';
 import 'package:bookzapp/Widgets/BookGrid.dart';
+import 'package:bookzapp/Widgets/ReloadableNoConnectionScreen.dart';
 import 'package:bookzapp/model/BookSet.dart';
 import 'package:bookzapp/model/Utilities.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,8 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //returns list of books based on today's topics
   Future<Map<String, BookSet>> retrieveDailyBooks() async {
-    // int rand = new Random().nextInt(topics.length);
-    // topic = topics.elementAt(rand);
     var bookSet = await Utilities.fetchBookSet(
         "https://api.itbook.store/1.0/search/" + topic);
 
@@ -65,65 +64,60 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bodyHeight = MediaQuery.of(context).size.height -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        kTextTabBarHeight;
-
     setTopic();
 
-    return FutureBuilder<Map<String, BookSet>>(
-      future: getAllBooks(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: SpinKitCubeGrid(
-            color: Colors.blue,
-            size: 50.0,
-          ));
-        } else if (snapshot.data['NewRelease'].error == -1) {
-          return RefreshIndicator(
-              child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification:
-                      (OverscrollIndicatorNotification overScroll) {
+    return Utilities.showNoConnectionWidget(
+      context,
+      noConnWidget: ReloadableNoConnectionScreen(
+        func: updateWidgets,
+      ),
+      widget: FutureBuilder<Map<String, BookSet>>(
+        future: getAllBooks(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: SpinKitCubeGrid(
+              color: Colors.blue,
+              size: 50.0,
+            ));
+          } else if (snapshot.data['NewRelease'].error == -1) {
+            return RefreshIndicator(
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (OverscrollIndicatorNotification overScroll) {
                     overScroll.disallowGlow();
                     return true;
                   },
-                  child: SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      child: Container(
-                          alignment: Alignment.center,
-                          color: Colors.grey[50],
-                          height: bodyHeight,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.signal_wifi_off,
-                                size: 50,
-                              ),
-                              Text('No connection, reload to try again'),
-                            ],
-                          )))),
-              onRefresh: () => updateWidgets());
-        }
-        else {
-          return RefreshIndicator(child:
-
-          ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: <Widget>[
-                //new releases
-                CatalogCard("New releases", snapshot.data['NewRelease'].books),
-                //catalog grid test random daily books
-                CatalogGrid("Books about " + topic, snapshot.data[topic].books),
-              ]
-          ),
-
-              onRefresh: () => updateWidgets());
-        }
-      },
+                  child: ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        Center(
+                          child: Text('Error occurred while making modules!'),
+                        ),
+                        //new releases
+                        CatalogCard("New releases", []),
+                        //catalog grid test random daily books
+                        CatalogGrid("Books about " + topic, []),
+                      ]),
+                ),
+                onRefresh: () => updateWidgets());
+          } else {
+            return RefreshIndicator(
+                child: ListView(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      //new releases
+                      CatalogCard(
+                          "New releases", snapshot.data['NewRelease'].books),
+                      //catalog grid test random daily books
+                      CatalogGrid(
+                          "Books about " + topic, snapshot.data[topic].books),
+                    ]),
+                onRefresh: () => updateWidgets());
+          }
+        },
+      ),
     );
   }
 }

@@ -45,31 +45,3 @@ class CatalogCard extends StatelessWidget {
     );
   }
 }
-
-/* TEMP
-
-Container(
-                  alignment:  Alignment.topCenter,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  width: 160.0,
-                  color: Colors.black,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: <Widget>[
-                      Image.network(book.image),
-                      //book title container
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 4),
-                        child:
-                        //book title
-                        Text(
-                          book.title,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )*/
