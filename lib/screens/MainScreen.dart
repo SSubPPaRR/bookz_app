@@ -1,18 +1,18 @@
 import 'package:bookzapp/Widgets/CatalogSearch.dart';
+import 'package:bookzapp/Widgets/NoConnectionScreen.dart';
+import 'package:bookzapp/model/Utilities.dart';
 import 'package:bookzapp/screens/MyCatalogPage.dart';
 import 'package:bookzapp/screens/MyHomePage.dart';
 import 'package:bookzapp/screens/MyProfileScreen.dart';
 import 'package:bookzapp/screens/MyShoppingList.dart';
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatefulWidget{
-
+class MainScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MainScreenState();
-
 }
-class _MainScreenState extends State<MainScreen>{
 
+class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   Widget _title = Text("Home");
   Widget _leading;
@@ -34,8 +34,16 @@ class _MainScreenState extends State<MainScreen>{
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyShoppingList(),
-        ));
+            builder: (context) => Utilities.showNoConnectionWidget(
+                  context,
+                  noConnWidget: Scaffold(
+                    appBar: AppBar(
+                      title: Text('Shopping cart'),
+                    ),
+                    body: NoConnectionScreen(),
+                  ),
+                  widget: MyShoppingList(),
+                )));
   }
 
   void _onItemTapped(int index) {

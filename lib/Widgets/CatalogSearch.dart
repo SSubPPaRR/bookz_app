@@ -1,5 +1,7 @@
 import 'package:bookzapp/Widgets/CatalogSearchResult.dart';
+import 'package:bookzapp/Widgets/NoConnectionScreen.dart';
 import 'package:bookzapp/model/Book.dart';
+import 'package:bookzapp/model/Utilities.dart';
 import 'package:flutter/material.dart';
 
 class CatalogSearch extends SearchDelegate<Book> {
@@ -57,7 +59,9 @@ class CatalogSearch extends SearchDelegate<Book> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return CatalogSearchResult(query, sortOption);
+    return Utilities.showNoConnectionWidget(context,
+        noConnWidget: NoConnectionScreen(),
+        widget: CatalogSearchResult(query, sortOption));
   }
 
   @override

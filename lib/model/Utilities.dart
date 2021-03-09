@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:connectivity/connectivity.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_scraper/web_scraper.dart';
 
@@ -19,7 +23,7 @@ class Utilities {
       return parseBookSet(response.body);
     } catch (timeOut) {
       print("Connection timedOut");
-      //error: -1 for connection error
+      //error: -1 failed to load from api
       return new BookSet(error: -1, total: 0, books: new List<Book>());
     }
   }
@@ -40,7 +44,7 @@ class Utilities {
       print("Error occurred retrieving book");
       print(error);
       print(stack);
-      //error: -1 for connection error
+      //error: -1 failed to load from api
       return new Book(
         error: -1,
         price: null,
@@ -109,5 +113,43 @@ class Utilities {
         EmailAuthProvider.credential(email: user.email, password: password);
     var result = await user.reauthenticateWithCredential(credential);
     return result.user != null;
+  }
+
+  static Future<bool> dataConnectionTest() async {
+    if (await DataConnectionChecker().hasConnection) {
+      return true;
+    } else
+      return false;
+  }
+
+  static Future<bool> checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      // I am connected to a mobile network, make sure there is actually a net connection.
+      return dataConnectionTest();
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      // I am connected to a WIFI network, make sure there is actually a net connection.
+      return dataConnectionTest();
+    } else {
+      // Neither mobile data or WIFI detected, not internet connection found.
+      return false;
+    }
+  }
+
+  static Widget showNoConnectionWidget(BuildContext context,
+      {Widget noConnWidget, Widget widget}) {
+    return FutureBuilder(
+        future: checkConnection(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (!snapshot.data) {
+              return noConnWidget;
+            } else
+              return widget;
+          }
+          return Center(
+            child: Text('s'),
+          );
+        });
   }
 }

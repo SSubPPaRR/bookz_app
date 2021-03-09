@@ -89,27 +89,3 @@ class CatalogGrid extends StatelessWidget{
     }
   }
 }
-/*Container(
-                          alignment: Alignment.topCenter,
-                          color: Colors.black,
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: <Widget>[
-                              Image.network(book.image),
-                              //book title container
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 4),
-                                width: 140,
-                                child:
-                                //book title
-                                Text(
-                                  book.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )*/
